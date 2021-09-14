@@ -1,0 +1,6 @@
+.element__group_likes {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 36px;
+}

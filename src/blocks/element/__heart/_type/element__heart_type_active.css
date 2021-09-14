@@ -1,0 +1,7 @@
+.element__heart_type_active {
+    background-image: url("../../../../images/heart-active.svg");
+    width: 22px;
+    height: 19px;
+    border: none;
+    object-fit: contain;
+}

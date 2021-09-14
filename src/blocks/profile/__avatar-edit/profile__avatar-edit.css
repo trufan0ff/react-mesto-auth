@@ -1,0 +1,17 @@
+.profile__avatar-edit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 26px;
+    height: 26px;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.profile__avatar-edit:hover {
+    z-index: 1;
+}
+
+
+

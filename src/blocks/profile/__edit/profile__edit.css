@@ -1,0 +1,14 @@
+.profile__edit {
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+    margin: 0 auto;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+@media screen and (max-width: 879px) {
+    .profile__edit {
+        width: 100%;
+    }
+}

@@ -1,0 +1,13 @@
+.link-animation {
+  background-color: transparent;
+  border: none;
+    opacity: 1;
+  }
+
+.link-animation:hover {
+  transition: link-animation 10s linear forwards;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+
