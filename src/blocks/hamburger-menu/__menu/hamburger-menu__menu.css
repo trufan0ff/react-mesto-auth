@@ -1,0 +1,28 @@
+.hamburger-menu__menu {
+  width: 24px;
+  height: 3px;
+  background: #fff;
+  position: relative;
+  display: inline-flex;
+  transition: all 0.5s;
+}
+.humburger-menu__menu:after {
+  content: "";
+  width: 24px;
+  height: 3px;
+  display: block;
+  background: #fff;
+  position: absolute;
+  transform: translateY(8px);
+  transition: all 0.5s;
+}
+.humburger-menu__menu:before {
+  content: "";
+  width: 24px;
+  height: 3px;
+  display: block;
+  background: #fff;
+  position: absolute;
+  transform: translateY(-8px);
+  transition: all 0.5s;
+}

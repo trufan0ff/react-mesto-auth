@@ -1,0 +1,12 @@
+.authorization {
+    padding-top: 60px;
+    color: #fff;
+    margin: 0 auto;
+    max-width: 358px;
+}
+
+@media screen and (max-width: 425px) {
+    .authorization {
+    max-width: 260px;
+    }
+}

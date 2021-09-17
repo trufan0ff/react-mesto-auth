@@ -1,0 +1,11 @@
+.header__info {
+  font-size: 18px;
+  line-height: 22px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 558px) {
+  .header__info {
+    display: none;
+  }
+}

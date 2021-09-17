@@ -10,10 +10,18 @@ import api from "../utils/Api";
 import React from "react";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute.js";
+import Login from "./Login.js";
+import Register from "./Register.js";
+import * as auth from "../utils/auth";
+import InfoToolTip from "./InfoTooltip";
+import MenuMobile from "./MenuMobile";
+
 
 
 function App() {
-
+    const [loggedIn, setLoggedIn] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [currentUser, setCurrentUser] = React.useState({
         name: '',
@@ -21,6 +29,36 @@ function App() {
         _id: '',
     });
     const [cards, setCards] = React.useState([]);
+    const [userData, setUserData] = React.useState({
+        email: "",
+    });
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
+    const [infoToolTipData, setInfoToolTipData] = React.useState({
+        title: "",
+        icon: "",
+    });
+    const [isDataSet, setIsDataSet] = React.useState(false);
+    const history = useHistory();
+
+    // function handleLogin() {
+    //     setLoggedIn(true)
+    // }
+
+    const handleLogin = (email, password) => {
+        auth
+            .authorize(email, password)
+            .then((res) => {
+                if (res.token) {
+                    localStorage.setItem("token", res.token);
+                    setUserData({ email: email });
+                    setLoggedIn(true);
+                    setIsMenuOpen(false);
+                    history.push("/");
+                }
+            })
+            .catch((err) => console.log(err));
+    };
 
     useEffect(() => {
         api.getInitialCards()
@@ -41,6 +79,12 @@ function App() {
                 console.log(err);
             });
     }, [setCurrentUser])
+
+    useEffect(() => {
+        if (loggedIn) {
+            history.push("/");
+        }
+    }, [history, loggedIn]);
 
     function handleAddPlaceSubmit({ name, link }) {
         api.addCard(name, link)
@@ -114,18 +158,79 @@ function App() {
     function handleAddPlaceClick() {
         setStatePlace(true);
     }
-    const [isAddConfirmPopupOpen, setStateConfirm] = React.useState(false);
-    function handleConfirmPlaceClick() {
-        setStateConfirm(true);
-    }
+    // const [isAddConfirmPopupOpen, setStateConfirm] = React.useState(false);
+    // function handleConfirmPlaceClick() {
+    //     setStateConfirm(true);
+    // }
 
     function closeAllPopups() {
-        setClosePopups(true);
         setStateProfile(false);
         setStatePlace(false);
         setStateAvatar(false);
         setSelectedCard(null);
     }
+
+    const tokenCheck = () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            auth
+                .getToken(token)
+                .then((res) => {
+                    if (res) {
+                        setUserData({ email: res.data.email });
+                        setLoggedIn(true);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    };
+
+    useEffect(() => {
+        tokenCheck();
+    }, []);
+
+
+
+    const toggleMenu = () => {
+        isMenuOpen ? setIsMenuOpen(false) : setIsMenuOpen(true);
+    };
+
+    const handleInfoToolTip = () => {
+        setIsInfoToolTipOpen(true);
+    };
+
+
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setUserData({ email: "" });
+        setLoggedIn(false);
+    };
+
+    const handleRegister = (password, email) => {
+        auth
+            .register(password, email)
+            .then((res) => {
+                setIsDataSet(true);
+                history.push("/sign-in");
+                setInfoToolTipData({
+                    icon: true,
+                    title: "Вы успешно зарегистрировались!",
+                });
+                handleInfoToolTip();
+            })
+            .catch(() => {
+                setIsDataSet(false);
+                setInfoToolTipData({
+                    icon: false,
+                    title: "Что-то пошло не так! Попробуйте ещё раз.",
+                });
+                handleInfoToolTip();
+            })
+            .finally(() => {
+                setIsDataSet(false);
+            });
+    };
 
 
     return (
@@ -134,52 +239,89 @@ function App() {
                 <div className="App" background="#000">
                     <div className="body">
                         <div className="page">
-                            <Header />
-                            <Main
-                                cards={cards}
-                                onCardLike={handleCardLike}
-                                onCardDelete={handleCardDelete}
-                                handleCardClick={handleCardClick}
-                                onEditProfile={handleEditProfileClick}
-                                onAddPlace={handleAddPlaceClick}
-                                onEditAvatar={handleEditAvatarClick}
-                            ></Main>
-                            <Footer />
-
-                            <EditAvatarPopup
-                                name={"update-popup"}
-                                title={"Обновить аватар"}
-                                onClose={closeAllPopups}
-                                isOpen={isEditAvatarPopupOpen}
-                                onUpdateAvatar={handleUpdateAvatar} />
-
-                            <EditProfilePopup
-                                name={"edit-popup"}
-                                title={"Редактировать профиль"}
-                                onUpdateUser={handleUpdateUser}
-                                onClose={closeAllPopups}
-                                isOpen={isEditProfilePopupOpen}
+                            {loggedIn && (
+                                <MenuMobile
+                                    email={userData.email}
+                                    handleLogout={handleLogout}
+                                    isMenuOpen={isMenuOpen}
+                                />
+                            )}
+                            <Header
+                                handleLogout={handleLogout}
+                                email={userData.email}
+                                toggleMenu={toggleMenu}
+                                isMenuOpen={isMenuOpen}
                             />
+                            <Switch>
+                                <Route path="/signin">
+                                    <Login handleLogin={handleLogin} />
+                                </Route>
+                                <Route path="/signup">
+                                    <Register handleRegister={handleRegister} isDataSet={isDataSet} />
+                                </Route>
+                                <Route path="/">
+                                    <ProtectedRoute
+                                        exect
+                                        path="/"
+                                        loggedIn={loggedIn}
+                                        cards={cards}
+                                        onCardLike={handleCardLike}
+                                        onCardDelete={handleCardDelete}
+                                        handleCardClick={handleCardClick}
+                                        onEditProfile={handleEditProfileClick}
+                                        onAddPlace={handleAddPlaceClick}
+                                        onEditAvatar={handleEditAvatarClick}
+                                        component={Main}
+                                    />
+                                </Route>
 
-                            <AddPlacePopup
-                                name={"add-popup"}
-                                title={"Новое место"}
-                                onClose={closeAllPopups}
-                                isOpen={isAddPlacePopupOpen}
-                                onAddPlace={handleAddPlaceSubmit} />
+                                <Route>
+                                    {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+                                </Route>
+                                <Footer />
+
+                                <EditAvatarPopup
+                                    name={"update-popup"}
+                                    title={"Обновить аватар"}
+                                    onClose={closeAllPopups}
+                                    isOpen={isEditAvatarPopupOpen}
+                                    onUpdateAvatar={handleUpdateAvatar}
+                                />
+
+                                <EditProfilePopup
+                                    name={"edit-popup"}
+                                    title={"Редактировать профиль"}
+                                    onUpdateUser={handleUpdateUser}
+                                    onClose={closeAllPopups}
+                                    isOpen={isEditProfilePopupOpen}
+                                />
+
+                                <AddPlacePopup
+                                    name={"add-popup"}
+                                    title={"Новое место"}
+                                    onClose={closeAllPopups}
+                                    isOpen={isAddPlacePopupOpen}
+                                    onAddPlace={handleAddPlaceSubmit}
+                                />
 
 
-                            <ImagePopup
-                                handleCardClick={handleCardClick}
-                                onClose={closeAllPopups}
-                                card={selectedCard}
-                            />
-
+                                <ImagePopup
+                                    handleCardClick={handleCardClick}
+                                    onClose={closeAllPopups}
+                                    card={selectedCard}
+                                />
+                                <InfoToolTip
+                                    isOpen={isInfoToolTipOpen}
+                                    onClose={closeAllPopups}
+                                    title={infoToolTipData.title}
+                                    icon={infoToolTipData.icon}
+                                />
+                            </Switch>
                         </div>
                     </div>
                 </div>
             }
-        </CurrentUserContext.Provider>
+        </CurrentUserContext.Provider >
     );
 }
 

@@ -1,0 +1,23 @@
+.hamburger-menu {
+  display: none;
+  transition: 0.2s ease-in;
+}
+
+.hamburger-menu:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 558px) {
+  .hamburger-menu {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: block;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
+}

@@ -1,0 +1,12 @@
+.authorization__caption {
+  font-size: 14px;
+  min-height: 17px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+  .authorization__caption {
+    margin: 20px 0;
+  }
+}

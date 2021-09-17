@@ -1,0 +1,24 @@
+.menu_mobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  margin: auto;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 142px;
+  border-bottom: 1px solid #545454;
+}
+
+@media screen and (max-width: 425px) {
+  .menu_mobile {
+    padding: 24px;
+  }
+}
+
+@media screen and (min-width: 559px) {
+  .menu_mobile {
+    display: none;
+  }
+}

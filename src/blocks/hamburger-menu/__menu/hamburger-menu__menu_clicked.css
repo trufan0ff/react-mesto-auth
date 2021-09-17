@@ -1,0 +1,14 @@
+.humburger-menu__menu_clicked {
+  background: transparent;
+  transition: all 0.5s;
+}
+.humburger-menu__menu_clicked:after {
+  top: 0px;
+  transform: rotate(45deg);
+  transition: all 0.5s;
+}
+.humburger-menu__menu_clicked:before {
+  top: 0px;
+  transform: rotate(-45deg);
+  transition: all 0.5s;
+}
