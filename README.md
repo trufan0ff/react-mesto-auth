@@ -1,5 +1,5 @@
 # Учебнай проект по рефакторингу mesto-react
-## [Посмотреть можно здесь](https://trufan0ff.github.io/mesto-react/)
+## [Посмотреть можно здесь](http://trufan0ff.github.io/react-mesto-auth/)
 
 ## Описание: Перенос логики на React с использованием хуков
 
