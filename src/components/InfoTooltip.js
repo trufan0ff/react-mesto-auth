@@ -8,7 +8,7 @@ function InfoTooltip({ title, isOpen, onClose, icon }) {
                 <div className="popup__container"> 
                     <button className="popup__close" type="button" onClick={onClose} />
                     <img src={icon ? SucceedIcon : ErrorIcon} className="popup__icon" alt="Иконка" />
-                    <h2 className="popup__title">{title}</h2> 
+                    <h2 className="popup__title-authorization">{title}</h2> 
                 </div> 
             </section> 
     )

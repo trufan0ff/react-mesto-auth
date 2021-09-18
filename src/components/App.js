@@ -244,8 +244,7 @@ function App() {
                                 toggleMenu={toggleMenu}
                                 isMenuOpen={isMenuOpen}
                             />
-                            <Switch>
-                                <ProtectedRoute
+                            <ProtectedRoute
                                     exect
                                     path="/"
                                     loggedIn={loggedIn}
@@ -258,6 +257,8 @@ function App() {
                                     onEditAvatar={handleEditAvatarClick}
                                     component={Main}
                                 />
+                            <Switch>
+                                
 
                                 <Route path="/signin">
                                     <Login handleLogin={handleLogin} />
