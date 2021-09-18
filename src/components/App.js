@@ -154,10 +154,6 @@ function App() {
     function handleAddPlaceClick() {
         setStatePlace(true);
     }
-    // const [isAddConfirmPopupOpen, setStateConfirm] = React.useState(false);
-    // function handleConfirmPlaceClick() {
-    //     setStateConfirm(true);
-    // }
 
     function closeAllPopups() {
         setStateProfile(false);
@@ -204,8 +200,7 @@ function App() {
     };
 
     const handleRegister = (password, email) => {
-        auth
-            .register(password, email)
+        auth.register(password, email)
             .then((res) => {
                 setIsDataSet(true);
                 history.push("/sign-in");
@@ -255,24 +250,23 @@ function App() {
                                 <Route path="/signup">
                                     <Register handleRegister={handleRegister} isDataSet={isDataSet} />
                                 </Route>
-                                <Route path="/">
-                                    <ProtectedRoute
-                                        exect
-                                        path="/"
-                                        loggedIn={loggedIn}
-                                        cards={cards}
-                                        onCardLike={handleCardLike}
-                                        onCardDelete={handleCardDelete}
-                                        handleCardClick={handleCardClick}
-                                        onEditProfile={handleEditProfileClick}
-                                        onAddPlace={handleAddPlaceClick}
-                                        onEditAvatar={handleEditAvatarClick}
-                                        component={Main}
-                                    />
-                                </Route>
+
+                                <ProtectedRoute
+                                    exect
+                                    path="/"
+                                    loggedIn={loggedIn}
+                                    cards={cards}
+                                    onCardLike={handleCardLike}
+                                    onCardDelete={handleCardDelete}
+                                    handleCardClick={handleCardClick}
+                                    onEditProfile={handleEditProfileClick}
+                                    onAddPlace={handleAddPlaceClick}
+                                    onEditAvatar={handleEditAvatarClick}
+                                    component={Main}
+                                />
 
                                 <Route>
-                                    {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+                                    {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
                                 </Route>
                                 <Footer />
 
