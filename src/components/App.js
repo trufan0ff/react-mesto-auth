@@ -21,50 +21,49 @@ import MenuMobile from "./MenuMobile";
 
 
 function App() {
-    const [loggedIn, setLoggedIn] = React.useState(false);
-    const [selectedCard, setSelectedCard] = React.useState(null);
+    const [loggedIn, setLoggedIn] = React.useState(false)
+    const [selectedCard, setSelectedCard] = React.useState(null)
     const [currentUser, setCurrentUser] = React.useState({
         name: '',
         about: '',
-        _id: '',
-    });
+        _id: ''
+    })
     const [cards, setCards] = React.useState([]);
     const [userData, setUserData] = React.useState({
-        email: "",
-    });
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
+        email: ""
+    })
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+    const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false)
     const [infoToolTipData, setInfoToolTipData] = React.useState({
         title: "",
-        icon: "",
-    });
-    const [isDataSet, setIsDataSet] = React.useState(false);
-    const history = useHistory();
+        icon: ""
+    })
+    const [isDataSet, setIsDataSet] = React.useState(false)
+    const history = useHistory()
 
     const handleLogin = (email, password) => {
-        auth
-            .authorize(email, password)
+        auth.authorize(email, password)
             .then((res) => {
                 if (res.token) {
-                    localStorage.setItem("token", res.token);
-                    setUserData({ email: email });
-                    setLoggedIn(true);
-                    setIsMenuOpen(false);
-                    history.push("/");
+                    localStorage.setItem("token", res.token)
+                    setUserData({ email: email })
+                    setLoggedIn(true)
+                    setIsMenuOpen(false)
+                    history.push("/")
                 }
             })
-            .catch((err) => console.log(err));
-    };
+            .catch((err) => console.log(err))
+    }
 
     useEffect(() => {
         api.getInitialCards()
             .then((cards) => {
-                setCards(cards);
+                setCards(cards)
             })
             .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+                console.log(err)
+            })
+    }, [])
 
     useEffect(() => {
         api.getUserInfo()
@@ -72,20 +71,20 @@ function App() {
                 setCurrentUser(res)
             })
             .catch((err) => {
-                console.log(err);
-            });
+                console.log(err)
+            })
     }, [setCurrentUser])
 
     useEffect(() => {
         if (loggedIn) {
-            history.push("/");
+            history.push("/")
         }
-    }, [history, loggedIn]);
+    }, [history, loggedIn])
 
     function handleAddPlaceSubmit({ name, link }) {
         api.addCard(name, link)
             .then(newCard => {
-                setCards([newCard, ...cards]);
+                setCards([newCard, ...cards])
                 closeAllPopups()
             })
     }
@@ -97,8 +96,8 @@ function App() {
                 closeAllPopups()
             })
             .catch((err) => {
-                console.log(err);
-            });
+                console.log(err)
+            })
     }
 
     function handleUpdateAvatar({ avatar }) {
@@ -108,8 +107,8 @@ function App() {
                 closeAllPopups()
             })
             .catch((err) => {
-                console.log(err);
-            });
+                console.log(err)
+            })
     }
 
     function handleCardLike(card) {
@@ -122,8 +121,8 @@ function App() {
                 )
             })
             .catch((err) => {
-                console.log(err);
-            });
+                console.log(err)
+            })
     }
 
     function handleCardDelete(card) {
@@ -134,81 +133,80 @@ function App() {
                 closeAllPopups()
             })
             .catch((err) => {
-                console.log(err);
-            });
+                console.log(err)
+            })
     }
 
     function handleCardClick(card) {
-        setSelectedCard(card);
+        setSelectedCard(card)
     }
 
     const [isEditAvatarPopupOpen, setStateAvatar] = React.useState(false);
     function handleEditAvatarClick() {
-        setStateAvatar(true);
+        setStateAvatar(true)
     }
     const [isEditProfilePopupOpen, setStateProfile] = React.useState(false);
     function handleEditProfileClick() {
-        setStateProfile(true);
+        setStateProfile(true)
     }
     const [isAddPlacePopupOpen, setStatePlace] = React.useState(false);
     function handleAddPlaceClick() {
-        setStatePlace(true);
+        setStatePlace(true)
     }
 
     function closeAllPopups() {
-        setStateProfile(false);
-        setStatePlace(false);
-        setStateAvatar(false);
-        setSelectedCard(null);
+        setStateProfile(false)
+        setStatePlace(false)
+        setStateAvatar(false)
+        setSelectedCard(null)
     }
 
     const tokenCheck = () => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token")
         if (token) {
-            auth
-                .getToken(token)
+            auth.getToken(token)
                 .then((res) => {
                     if (res) {
-                        setUserData({ email: res.data.email });
-                        setLoggedIn(true);
+                        setUserData({ email: res.data.email })
+                        setLoggedIn(true)
                     }
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => console.log(err))
         }
-    };
+    }
 
     useEffect(() => {
-        tokenCheck();
-    }, []);
+        tokenCheck()
+    }, [])
 
 
 
     const toggleMenu = () => {
-        isMenuOpen ? setIsMenuOpen(false) : setIsMenuOpen(true);
-    };
+        isMenuOpen ? setIsMenuOpen(false) : setIsMenuOpen(true)
+    }
 
     const handleInfoToolTip = () => {
-        setIsInfoToolTipOpen(true);
-    };
+        setIsInfoToolTipOpen(true)
+    }
 
 
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        setUserData({ email: "" });
-        setLoggedIn(false);
-    };
+        localStorage.removeItem("token")
+        setUserData({ email: "" })
+        setLoggedIn(false)
+    }
 
     const handleRegister = (password, email) => {
         auth.register(password, email)
             .then((res) => {
-                setIsDataSet(true);
-                history.push("/sign-in");
+                setIsDataSet(true)
+                history.push("/signin")
                 setInfoToolTipData({
                     icon: true,
                     title: "Вы успешно зарегистрировались!",
-                });
-                handleInfoToolTip();
+                })
+                handleInfoToolTip()
             })
             .catch(() => {
                 setIsDataSet(false);
@@ -216,12 +214,12 @@ function App() {
                     icon: false,
                     title: "Что-то пошло не так! Попробуйте ещё раз.",
                 });
-                handleInfoToolTip();
+                handleInfoToolTip()
             })
             .finally(() => {
-                setIsDataSet(false);
-            });
-    };
+                setIsDataSet(false)
+            })
+    }
 
 
     return (
@@ -247,6 +245,7 @@ function App() {
                                 <Route path="/signin">
                                     <Login handleLogin={handleLogin} />
                                 </Route>
+                                
                                 <Route path="/signup">
                                     <Register handleRegister={handleRegister} isDataSet={isDataSet} />
                                 </Route>
@@ -265,7 +264,7 @@ function App() {
                                     component={Main}
                                 />
 
-                                <Route>
+                                <Route path="/">
                                     {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
                                 </Route>
                                 <Footer />
