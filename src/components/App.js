@@ -159,6 +159,7 @@ function App() {
         setStatePlace(false)
         setStateAvatar(false)
         setSelectedCard(null)
+        setIsInfoToolTipOpen(false)
     }
 
     const tokenCheck = () => {
@@ -185,7 +186,7 @@ function App() {
         isMenuOpen ? setIsMenuOpen(false) : setIsMenuOpen(true)
     }
 
-    const handleInfoToolTip = () => {
+    function handleInfoToolTip() {
         setIsInfoToolTipOpen(true)
     }
 
@@ -245,9 +246,9 @@ function App() {
                                 <Route path="/signin">
                                     <Login handleLogin={handleLogin} />
                                 </Route>
-                                
+
                                 <Route path="/signup">
-                                    <Register handleRegister={handleRegister} isDataSet={isDataSet} />
+                                    <Register handleRegister={handleRegister} isDataSet={isDataSet}  />
                                 </Route>
 
                                 <ProtectedRoute
@@ -261,6 +262,7 @@ function App() {
                                     onEditProfile={handleEditProfileClick}
                                     onAddPlace={handleAddPlaceClick}
                                     onEditAvatar={handleEditAvatarClick}
+                                    
                                     component={Main}
                                 />
 

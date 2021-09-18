@@ -57,7 +57,7 @@ function Register({ handleRegister, isDataSet }) {
             </form>
 
             <p className="authorization__caption">
-                Уже зарегистрированы?  
+                Уже зарегистрированы?&nbsp;
                 <Link to="signin" className="authorization__link">
                     Войти
                 </Link>
