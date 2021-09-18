@@ -41,10 +41,6 @@ function App() {
     const [isDataSet, setIsDataSet] = React.useState(false);
     const history = useHistory();
 
-    // function handleLogin() {
-    //     setLoggedIn(true)
-    // }
-
     const handleLogin = (email, password) => {
         auth
             .authorize(email, password)
