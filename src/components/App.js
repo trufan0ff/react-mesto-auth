@@ -26,17 +26,17 @@ function App() {
     const [currentUser, setCurrentUser] = React.useState({
         name: '',
         about: '',
-        _id: ''
+        _id: '',
     })
     const [cards, setCards] = React.useState([]);
     const [userData, setUserData] = React.useState({
-        email: ""
+        email: "",
     })
     const [isMenuOpen, setIsMenuOpen] = React.useState(false)
     const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false)
     const [infoToolTipData, setInfoToolTipData] = React.useState({
         title: "",
-        icon: ""
+        icon: "",
     })
     const [isDataSet, setIsDataSet] = React.useState(false)
     const history = useHistory()
@@ -206,8 +206,8 @@ function App() {
                 setInfoToolTipData({
                     icon: true,
                     title: "Вы успешно зарегистрировались!",
-                })
-                handleInfoToolTip()
+                });
+                handleInfoToolTip();
             })
             .catch(() => {
                 setIsDataSet(false);
@@ -215,7 +215,7 @@ function App() {
                     icon: false,
                     title: "Что-то пошло не так! Попробуйте ещё раз.",
                 });
-                handleInfoToolTip()
+                handleInfoToolTip();
             })
             .finally(() => {
                 setIsDataSet(false)
@@ -229,6 +229,8 @@ function App() {
                 <div className="App" background="#000">
                     <div className="body">
                         <div className="page">
+
+
                             {loggedIn && (
                                 <MenuMobile
                                     email={userData.email}
@@ -243,14 +245,6 @@ function App() {
                                 isMenuOpen={isMenuOpen}
                             />
                             <Switch>
-                                <Route path="/signin">
-                                    <Login handleLogin={handleLogin} />
-                                </Route>
-
-                                <Route path="/signup">
-                                    <Register handleRegister={handleRegister} isDataSet={isDataSet}  />
-                                </Route>
-
                                 <ProtectedRoute
                                     exect
                                     path="/"
@@ -262,52 +256,58 @@ function App() {
                                     onEditProfile={handleEditProfileClick}
                                     onAddPlace={handleAddPlaceClick}
                                     onEditAvatar={handleEditAvatarClick}
-                                    
                                     component={Main}
                                 />
+
+                                <Route path="/signin">
+                                    <Login handleLogin={handleLogin} />
+                                </Route>
+
+                                <Route path="/signup">
+                                    <Register handleRegister={handleRegister} isDataSet={isDataSet} />
+                                </Route>
 
                                 <Route path="/">
                                     {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
                                 </Route>
-                                <Footer />
 
-                                <EditAvatarPopup
-                                    name={"update-popup"}
-                                    title={"Обновить аватар"}
-                                    onClose={closeAllPopups}
-                                    isOpen={isEditAvatarPopupOpen}
-                                    onUpdateAvatar={handleUpdateAvatar}
-                                />
-
-                                <EditProfilePopup
-                                    name={"edit-popup"}
-                                    title={"Редактировать профиль"}
-                                    onUpdateUser={handleUpdateUser}
-                                    onClose={closeAllPopups}
-                                    isOpen={isEditProfilePopupOpen}
-                                />
-
-                                <AddPlacePopup
-                                    name={"add-popup"}
-                                    title={"Новое место"}
-                                    onClose={closeAllPopups}
-                                    isOpen={isAddPlacePopupOpen}
-                                    onAddPlace={handleAddPlaceSubmit}
-                                />
-
-
-                                <ImagePopup
-                                    handleCardClick={handleCardClick}
-                                    onClose={closeAllPopups}
-                                    card={selectedCard}
-                                />
-                                <InfoToolTip
-                                    isOpen={isInfoToolTipOpen}
-                                    onClose={closeAllPopups}
-                                    title={infoToolTipData.title}
-                                    icon={infoToolTipData.icon}
-                                />
                             </Switch>
+
+                            <EditAvatarPopup
+                                title={"Обновить аватар"}
+                                onClose={closeAllPopups}
+                                isOpen={isEditAvatarPopupOpen}
+                                onUpdateAvatar={handleUpdateAvatar}
+                            />
+
+                            <EditProfilePopup
+                                title={"Редактировать профиль"}
+                                onUpdateUser={handleUpdateUser}
+                                onClose={closeAllPopups}
+                                isOpen={isEditProfilePopupOpen}
+                            />
+
+                            <AddPlacePopup
+                                title={"Новое место"}
+                                onClose={closeAllPopups}
+                                isOpen={isAddPlacePopupOpen}
+                                onAddPlace={handleAddPlaceSubmit}
+                            />
+
+                            <ImagePopup
+                                handleCardClick={handleCardClick}
+                                onClose={closeAllPopups}
+                                card={selectedCard}
+                            />
+
+                            <InfoToolTip
+                                isOpen={isInfoToolTipOpen}
+                                onClose={closeAllPopups}
+                                title={infoToolTipData.title}
+                                icon={infoToolTipData.icon}
+                            />
+
+                            <Footer />
                         </div>
                     </div>
                 </div>
