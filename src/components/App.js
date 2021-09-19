@@ -229,46 +229,46 @@ function App() {
                 <div className="App" background="#000">
                     <div className="body">
                         <div className="page">
-
-
                             {loggedIn && (
                                 <MenuMobile
+                                    exect
                                     email={userData.email}
                                     handleLogout={handleLogout}
                                     isMenuOpen={isMenuOpen}
                                 />
                             )}
+
                             <Header
                                 handleLogout={handleLogout}
                                 email={userData.email}
                                 toggleMenu={toggleMenu}
                                 isMenuOpen={isMenuOpen}
                             />
-                            <ProtectedRoute
-                                    exect
-                                    path="/"
-                                    loggedIn={loggedIn}
-                                    cards={cards}
-                                    onCardLike={handleCardLike}
-                                    onCardDelete={handleCardDelete}
-                                    handleCardClick={handleCardClick}
-                                    onEditProfile={handleEditProfileClick}
-                                    onAddPlace={handleAddPlaceClick}
-                                    onEditAvatar={handleEditAvatarClick}
-                                    component={Main}
-                                />
-                            <Switch>
-                                
 
-                                <Route path="/signin">
+                            <ProtectedRoute
+                                exect
+                                path="/"
+                                loggedIn={loggedIn}
+                                cards={cards}
+                                onCardLike={handleCardLike}
+                                onCardDelete={handleCardDelete}
+                                handleCardClick={handleCardClick}
+                                onEditProfile={handleEditProfileClick}
+                                onAddPlace={handleAddPlaceClick}
+                                onEditAvatar={handleEditAvatarClick}
+                                component={Main}
+                            />
+                            <Switch>
+
+                                <Route exect path="/signin">
                                     <Login handleLogin={handleLogin} />
                                 </Route>
 
-                                <Route path="/signup">
+                                <Route exect path="/signup">
                                     <Register handleRegister={handleRegister} isDataSet={isDataSet} />
                                 </Route>
 
-                                <Route path="/">
+                                <Route exect path="/">
                                     {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
                                 </Route>
 
