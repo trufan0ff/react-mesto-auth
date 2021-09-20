@@ -87,6 +87,9 @@ function App() {
                 setCards([newCard, ...cards])
                 closeAllPopups()
             })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     function handleUpdateUser({ name, about }) {
@@ -245,32 +248,30 @@ function App() {
                                 isMenuOpen={isMenuOpen}
                             />
 
-                            <ProtectedRoute
-                                exect
-                                path="/"
-                                loggedIn={loggedIn}
-                                cards={cards}
-                                onCardLike={handleCardLike}
-                                onCardDelete={handleCardDelete}
-                                handleCardClick={handleCardClick}
-                                onEditProfile={handleEditProfileClick}
-                                onAddPlace={handleAddPlaceClick}
-                                onEditAvatar={handleEditAvatarClick}
-                                component={Main}
-                            />
+
                             <Switch>
 
-                                <Route exect path="/signin">
+                                <Route path="/signin">
                                     <Login handleLogin={handleLogin} />
                                 </Route>
 
-                                <Route exect path="/signup">
+                                <Route path="/signup">
                                     <Register handleRegister={handleRegister} isDataSet={isDataSet} />
                                 </Route>
 
-                                <Route exect path="/">
-                                    {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
-                                </Route>
+                                <ProtectedRoute
+                                    exect
+                                    path="/"
+                                    loggedIn={loggedIn}
+                                    cards={cards}
+                                    onCardLike={handleCardLike}
+                                    onCardDelete={handleCardDelete}
+                                    handleCardClick={handleCardClick}
+                                    onEditProfile={handleEditProfileClick}
+                                    onAddPlace={handleAddPlaceClick}
+                                    onEditAvatar={handleEditAvatarClick}
+                                    component={Main}
+                                />
 
                             </Switch>
 

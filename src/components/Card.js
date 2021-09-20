@@ -33,7 +33,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete}) {
     }
     return (
         <div className="element">
-            <img src={card.link} style={{ backgroundImage: `url(${card.link})` }} onClick={handleClick} className="element__image" alt={card.name} />
+            <img src={card.link} onClick={handleClick} className="element__image" alt={card.name} />
             <button className={cardDeleteButtonClassName} type="button" onClick={handleDeleteClick} />
             <div className="element__group">
                 <h2 className="element__title">{card.name}</h2>
